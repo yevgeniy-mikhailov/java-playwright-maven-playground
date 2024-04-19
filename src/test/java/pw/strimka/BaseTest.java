@@ -2,10 +2,10 @@ package pw.strimka;
 
 import com.microsoft.playwright.*;
 import io.qameta.allure.Allure;
-import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -17,20 +17,20 @@ import java.util.List;
 public class BaseTest {
     private final Playwright playwright = Playwright.create();
     Page page;
+    Boolean isHeadless = Boolean.parseBoolean(System.getenv("HEADLESS"));
 
     @BeforeEach
     public void beforeEachBase() {
-        System.out.println("BaseTest");
         List<String> pwArgs = Collections.singletonList("--lang=en-En");
-        Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setArgs(pwArgs));
-        BrowserContext context = browser.newContext(new Browser.NewContextOptions().setViewportSize(1920, 1080).setRecordVideoDir(Paths.get("./target/video")));
+        Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless).setArgs(pwArgs));
+        BrowserContext context = browser.newContext(new Browser.NewContextOptions().setViewportSize(1920, 1080).setRecordVideoDir(Paths.get("./target/video")).setRecordVideoSize(1920, 1080));
         page = context.newPage();
     }
 
     @AfterEach
-    public void after() {
+    public void after(TestInfo testInfo) {
         page.context().close();
-        attachVideo();
+        attachVideo(optimizeTestName(testInfo));
     }
 
     @Step("Open url: {url}")
@@ -41,16 +41,21 @@ public class BaseTest {
     @Step("Make screenshot with name: {name}")
     protected void takeScreenshot(String name) {
         byte[] scr = page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("./target/screenshots/" + name)));
-        Allure.addAttachment("Video recording", new ByteArrayInputStream(scr));
+        Allure.addAttachment(name, new ByteArrayInputStream(scr));
     }
 
-    @Attachment
-    private void attachVideo() {
+    private void attachVideo(String name) {
         Video video = page.video();
         try {
-            Allure.addAttachment("Video recording", new ByteArrayInputStream(Files.readAllBytes(video.path())));
+            Allure.addAttachment(name + ".mp4", new ByteArrayInputStream(Files.readAllBytes(video.path())));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String optimizeTestName(TestInfo ti) {
+        String className = ti.getTestClass().get().getName();
+        String methodName = ti.getDisplayName();
+        return (className + "_" + methodName.substring(0, methodName.length() - 2)).replace('.', '_');
     }
 }
