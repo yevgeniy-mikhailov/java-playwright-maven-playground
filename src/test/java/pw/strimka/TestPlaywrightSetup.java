@@ -2,18 +2,12 @@ package pw.strimka;
 
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static pw.strimka.constant.KeyboardButtons.ENTER;
 import static pw.strimka.constant.Url.GOOGLE_URL;
 
 class TestPlaywrightSetup extends BaseTest {
-
-    @BeforeEach
-    public void beforeEach() {
-        System.out.println("TestPlaywrightSetup");
-    }
 
     @Test
     void testPlaywrightSetup() {
