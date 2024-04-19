@@ -18,11 +18,9 @@ run_test_job:
   script:
     - echo TESTS for UI
     - ls -la
-#    - apt-get update
-#    - apt-get -y install openjdk-21-jdk maven
-#    - wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure_2.27.0-1_all.deb
-#    - dpkg -i allure_2.27.0-1_all.deb
-    - mvn test allure:report
+    - apt-get update
+    - apt-get -y install openjdk-21-jdk maven
+    - mvn clean test allure:report
   artifacts:
     untracked: false
     when: always
