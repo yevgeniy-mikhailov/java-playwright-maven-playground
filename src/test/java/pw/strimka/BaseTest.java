@@ -28,7 +28,7 @@ public class BaseTest {
     }
 
     @AfterEach
-    public void after(TestInfo testInfo) {
+    public void afterEachBase(TestInfo testInfo) {
         page.context().close();
         attachVideo(optimizeTestName(testInfo));
     }
@@ -44,6 +44,7 @@ public class BaseTest {
         Allure.addAttachment(name, new ByteArrayInputStream(scr));
     }
 
+    @Step("Video recording of test: {name}")
     private void attachVideo(String name) {
         Video video = page.video();
         try {

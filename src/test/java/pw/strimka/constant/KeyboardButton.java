@@ -1,5 +1,5 @@
 package pw.strimka.constant;
 
-public class KeyboardButtons {
+public class KeyboardButton {
     public static final String ENTER = "Enter";
 }
