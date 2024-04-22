@@ -11,7 +11,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 public class BaseTest {
@@ -21,7 +20,7 @@ public class BaseTest {
 
     @BeforeEach
     public void beforeEachBase() {
-        List<String> pwArgs = Collections.singletonList("--lang=en-En");
+        List<String> pwArgs = List.of("--lang=en-En");
         Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless).setArgs(pwArgs));
         BrowserContext context = browser.newContext(new Browser.NewContextOptions().setViewportSize(1920, 1080).setRecordVideoDir(Paths.get("./target/video")).setRecordVideoSize(1920, 1080));
         page = context.newPage();
