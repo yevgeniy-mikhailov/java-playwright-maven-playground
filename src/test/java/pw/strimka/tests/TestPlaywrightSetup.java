@@ -3,11 +3,13 @@ package pw.strimka.tests;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import pw.strimka.extensions.AttachmentsExtension;
+import pw.strimka.extensions.BrowserManagementExtension;
 import pw.strimka.pages.BasePage;
 import pw.strimka.pages.GooglePage;
+
 import static pw.strimka.constant.Url.GOOGLE_URL;
 
-@ExtendWith(AttachmentsExtension.class)
+@ExtendWith({BrowserManagementExtension.class, AttachmentsExtension.class})
 class TestPlaywrightSetup {
     GooglePage googlePage = new GooglePage();
 
@@ -18,6 +20,4 @@ class TestPlaywrightSetup {
         googlePage.searchAndOpenFirstResult(searchText);
         BasePage.assertTitle("Installation | Playwright", googlePage.getPageTitle());
     }
-
-
 }

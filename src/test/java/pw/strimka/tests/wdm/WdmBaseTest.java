@@ -9,7 +9,7 @@ import pw.strimka.pages.wdm.*;
 import static pw.strimka.constant.Url.WDM_TEST_SITE;
 
 
-@ExtendWith({BrowserManagementExtension.class,AttachmentsExtension.class})
+@ExtendWith({BrowserManagementExtension.class, AttachmentsExtension.class})
 public class WdmBaseTest {
 
     final WdnSiteStart wdmPage = new WdnSiteStart();
