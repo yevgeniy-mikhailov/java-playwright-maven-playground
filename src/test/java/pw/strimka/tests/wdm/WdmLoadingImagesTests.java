@@ -20,16 +20,14 @@ public class WdmLoadingImagesTests extends WdmBaseTest {
         loadingImagesPage
                 .waitForLoadedUsingNetworkIdle()
                 .assertLoadingImagesOpened()
-                .waitForLoadedUsingNetworkIdle()
                 .assertAllExpectedImagesLoaded();
     }
 
     @Test
-    @AllureId("HW4-3.3")
+    @AllureId("HW4-3.2")
     void verifyPicturesLoadedUsingProgressBar() {
         loadingImagesPage.waitForSpinnerAbsence()
                 .assertLoadingImagesOpened()
-                .waitForLoadedUsingNetworkIdle()
                 .assertAllExpectedImagesLoaded();
     }
 }
