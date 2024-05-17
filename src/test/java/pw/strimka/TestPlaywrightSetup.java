@@ -1,42 +1,28 @@
 package pw.strimka;
 
 import com.microsoft.playwright.*;
-import org.junit.jupiter.api.Assertions;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
+import static pw.strimka.assertions.CustomAssert.assertTitle;
+import static pw.strimka.constant.KeyboardButton.ENTER;
+import static pw.strimka.constant.Url.GOOGLE_URL;
 
-class TestPlaywrightSetup {
-    private final Playwright playwright = Playwright.create();
-    private static final String GOOGLE_URL = "https://google.com";
-    Browser browser;
-    Page page;
-
-    @BeforeEach
-    public void beforeEach() {
-        List<String> pwArgs = Collections.singletonList("--lang=en-En");
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setArgs(pwArgs));
-        page = browser.newPage();
-    }
+class TestPlaywrightSetup extends BaseTest {
 
     @Test
     void testPlaywrightSetup() {
+        String searchText = "open playwright documentation";
         navigateToPageUrl(GOOGLE_URL);
-        page.locator("//textarea[@name='q']").fill("open playwright documentation");
-        page.keyboard().press("Enter");
-        page.locator("//h3", new Page.LocatorOptions().setHasText("Installation")).first().click();
-        Assertions.assertEquals("Installation | Playwright", page.title());
+        searchAndOpenFirstResult(searchText);
+        assertTitle("Installation | Playwright", page.title());
         takeScreenshot("playwright_documentation.png");
     }
 
-    public void navigateToPageUrl(String url) {
-        page.navigate(url);
-    }
-
-    public void takeScreenshot(String name) {
-        page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(name)));
+    @Step("Google for [{searchText}] and open first result")
+    private void searchAndOpenFirstResult(String searchText) {
+        page.locator("//textarea[@name='q']").fill(searchText);
+        page.keyboard().press(ENTER);
+        page.locator("//h3", new Page.LocatorOptions().setHasText("Installation")).first().click();
     }
 }
