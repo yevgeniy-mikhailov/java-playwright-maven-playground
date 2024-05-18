@@ -29,7 +29,8 @@ public class WebFormTests extends WdmBaseTest {
         String password = "PWD_SUPER_SECRET";
         webFormPage.fillTextInput(textInput).fillPassword(password);
         List<NameValuePair> params = webFormPage.submitWebForm();
-        Assertions.assertAll(() -> webFormPage.assertParamHasExpectedValue(WebFormSubmitParams.MY_TEXT, textInput, params), () -> webFormPage.assertParamHasExpectedValue(WebFormSubmitParams.MY_PASSWORD, password, params));
+        Assertions.assertAll(() -> webFormPage.assertParamHasExpectedValue(WebFormSubmitParams.MY_TEXT, textInput, params),
+                () -> webFormPage.assertParamHasExpectedValue(WebFormSubmitParams.MY_PASSWORD, password, params));
     }
 
     @Test
@@ -39,7 +40,8 @@ public class WebFormTests extends WdmBaseTest {
         String day = webFormPage.openDatepicker().selectRandomDay();
         webFormPage.setColor(color);
         List<NameValuePair> params = webFormPage.submitWebForm();
-        Assertions.assertAll(() -> webFormPage.assertDate(day, params), () -> webFormPage.assertParamHasExpectedValue(WebFormSubmitParams.MY_COLORS, color.toLowerCase(), params));
+        Assertions.assertAll(() -> webFormPage.assertDate(day,
+                params), () -> webFormPage.assertParamHasExpectedValue(WebFormSubmitParams.MY_COLORS, color.toLowerCase(), params));
     }
 
     @Test
@@ -59,25 +61,25 @@ public class WebFormTests extends WdmBaseTest {
         Assertions.assertEquals(4, options.size());
         for (int i = 0; i < options.size(); i++) {
             switch (i) {
-                case 0:
+                case 0 -> {
                     Assertions.assertEquals("Open this select menu", options.get(i).textContent());
                     webFormPage.assertSelectSending(options.get(i), options.get(i).textContent()).goBack();
-                    break;
-                case 1:
+                }
+                case 1 -> {
                     Assertions.assertEquals("One", options.get(i).textContent());
                     Assertions.assertEquals("1", options.get(i).getAttribute("value"));
                     webFormPage.assertSelectSending(options.get(i), String.valueOf(i)).goBack();
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     Assertions.assertEquals("Two", options.get(i).textContent());
                     Assertions.assertEquals("2", options.get(i).getAttribute("value"));
                     webFormPage.assertSelectSending(options.get(i), String.valueOf(i)).goBack();
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     Assertions.assertEquals("Three", options.get(i).textContent());
                     Assertions.assertEquals("3", options.get(i).getAttribute("value"));
                     webFormPage.assertSelectSending(options.get(i), String.valueOf(i)).goBack();
-                    break;
+                }
             }
         }
     }
