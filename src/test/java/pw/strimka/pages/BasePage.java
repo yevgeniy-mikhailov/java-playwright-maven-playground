@@ -1,7 +1,6 @@
 package pw.strimka.pages;
 
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.LoadState;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 
@@ -21,7 +20,6 @@ abstract public class BasePage <T extends BasePage<T>>{
     @Step("Open url: {url}")
     public BasePage navigateToPageUrl(String url) {
         getPage().navigate(url);
-        getPage().waitForLoadState(LoadState.DOMCONTENTLOADED);
         return this;
     }
 

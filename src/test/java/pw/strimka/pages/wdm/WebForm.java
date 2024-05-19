@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
@@ -85,7 +86,12 @@ public class WebForm extends BasePage<WebForm> {
     }
 
     private String getValueByParamName(WebFormSubmitParams paramName, List<NameValuePair> valuePairList) {
-        return valuePairList.stream().filter(e -> e.getName().equals(paramName.getParameterName())).findFirst().get().getValue();
+        var targetElement = valuePairList.stream().filter(e -> e.getName().equals(paramName.getParameterName())).findFirst();
+        if (targetElement.isPresent()) {
+            return targetElement.get().getValue();
+        } else {
+            throw new NoSuchElementException("Element not found");
+        }
     }
 
     @Step("Form submitted")
