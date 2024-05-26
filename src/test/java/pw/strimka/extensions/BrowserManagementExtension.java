@@ -9,6 +9,7 @@ public class BrowserManagementExtension implements AfterEachCallback, AfterAllCa
     @Override
     public void afterAll(ExtensionContext extensionContext) {
         BrowserManagement.removePlaywright();
+        BrowserManagement.cleanupForThread();
     }
 
     @Override
