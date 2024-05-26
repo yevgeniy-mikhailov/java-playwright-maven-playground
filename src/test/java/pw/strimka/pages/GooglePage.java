@@ -6,13 +6,13 @@ import io.qameta.allure.Step;
 import static pw.strimka.browser.BrowserManagement.getPage;
 import static pw.strimka.constant.KeyboardButton.ENTER;
 
-public class GooglePage extends BasePage<GooglePage>{
+public class GooglePage extends BasePage<GooglePage> {
 
     @Step("Google for [{searchText}] and open first result")
     public GooglePage searchAndOpenFirstResult(String searchText) {
         getPage().locator("//textarea[@name='q']").fill(searchText);
         getPage().keyboard().press(ENTER);
-        getPage().locator("//h3/a", new Page.LocatorOptions().setHasText("Installation")).first().click();
+        getPage().locator("//h3", new Page.LocatorOptions().setHasText("Installation")).first().click();
         return this;
     }
 
